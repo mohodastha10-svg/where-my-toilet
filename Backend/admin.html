@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Sanitation Admin | Dashboard</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <style>
+        :root { --primary: #2563eb; --danger: #ef4444; --bg: #f8fafc; }
+        body { font-family: 'Segoe UI', sans-serif; margin: 0; background: var(--bg); display: flex; }
+        
+        /* Sidebar */
+        .sidebar { width: 260px; height: 100vh; background: #1e293b; color: white; padding: 20px; position: fixed; }
+        .main-content { margin-left: 260px; padding: 40px; width: 100%; }
+        
+        /* Cards */
+        .stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-bottom: 30px; }
+        .card { background: white; padding: 20px; border-radius: 12px; box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1); }
+        .card h3 { margin: 0; color: #64748b; font-size: 14px; text-transform: uppercase; }
+        .card .value { font-size: 28px; font-weight: bold; color: #1e293b; margin-top: 10px; }
+        
+        #map { height: 500px; border-radius: 12px; border: 4px solid white; box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1); }
+        .status-pill { background: #fee2e2; color: #991b1b; padding: 4px 12px; border-radius: 99px; font-size: 12px; font-weight: 600; }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <h3>Where's my toilet</h1>
+        <p style="color: #94a3b8; font-size: 13px;">Grievance & Demand Monitor</p>
+        <hr style="border: 0.5px solid #334155; margin: 20px 0;">
+        <nav>
+            <p style="color: white;"> Overview</p>
+            <p style="color: #94a3b8;"> Map View</p>
+        </nav>
+    </div>
+
+    <div class="main-content">
+        <div class="stats-grid">
+            <div class="card">
+                <h3>Total Demand Signals</h3>
+                <div class="value" id="count">0</div>
+            </div>
+            <div class="card">
+                <h3>High Priority Grids</h3>
+                <div class="value" style="color: var(--danger);">1</div>
+            </div>
+            <div class="card">
+                <h3>System Status</h3>
+                <div class="value" style="color: 10b981; font-size: 18px;">● Live / Receiving</div>
+            </div>
+        </div>
+
+        <div id="map"></div>
+    </div>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script>
+        var map = L.map('map').setView([21.145, 79.088], 13);
+        L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+
+        async function fetchSignals() {
+            try {
+                const res = await fetch('http://localhost:3000/api/signals');
+                const data = await res.json();
+                document.getElementById('count').innerText = data.totalSignals;
+
+                data.data.forEach(signal => {
+                    L.marker([21.145, 79.088]).addTo(map)
+                        .bindPopup(`<span class="status-pill">URGENT</span><br><b>Toilet Demand Captured</b><br>ID: ${signal.id}`);
+                });
+            } catch (e) { console.error("Server Offline"); }
+
+
+            var githubchannge = 0;
+        }
+        fetchSignals();
+    </script>
+</body>
+</html>
