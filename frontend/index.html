@@ -1,3 +1,15 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Frontend</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -25,16 +37,20 @@
         .section.active-section { display: flex; flex-direction: column; align-items: center; justify-content: center; }
 
         /* Home Section */
-        #home {
-            background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('bg.jpg.jpg'); 
-            background-size: cover; background-position: center;
-            color: white; text-align: left; align-items: flex-start; padding-left: 5%;
-        }
-        #home h1 { font-size: 3.5rem; margin-bottom: 10px; }
-        
-        .search-container { background: white; padding: 5px; border-radius: 50px; display: flex; width: 100%; max-width: 450px; }
-        .search-input { border: none; outline: none; padding: 12px 20px; flex: 1; border-radius: 50px; font-size: 1rem; color: #333; }
-        .search-btn { background: var(--primary-blue); color: white; border: none; padding: 10px 30px; border-radius: 50px; cursor: pointer; font-weight: 600; }
+          #home {
+    /* Added the dot-slash and ensured the name matches */
+    background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('./bg.jpg'); 
+    background-size: cover; 
+    background-position: center;
+    background-repeat: no-repeat; /* Prevents the image from tiling */
+    min-height: 100vh; /* Ensures the section is tall enough to see the image */
+    color: white; 
+    text-align: left; 
+    display: flex; 
+    flex-direction: column;
+    justify-content: center;
+    padding-left: 5%;
+}
 
         /* Map Card */
         #search-results { text-align: center; padding: 40px; }
